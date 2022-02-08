@@ -1,22 +1,20 @@
-// 1.划分字母区间        
-// https://leetcode-cn.com/problems/partition-labels/
-var partitionLabels = function(s) {
-  const last = new Array(26);
-  const length = s.length;
-  const codePointA = 'a'.codePointAt(0);
-  for (let i = 0; i < length; i++) {
-      last[s.codePointAt(i) - codePointA] = i;
-  }
-  const partition = [];
-  let start = 0, end = 0;
-  for (let i = 0; i < length; i++) {
-      end = Math.max(end, last[s.codePointAt(i) - codePointA]);
-      if (i == end) {
-          partition.push(end - start + 1);
-          start = end + 1;
-      }
-  }
-  return partition;
-};
+// https://leetcode-cn.com/problems/fei-bo-na-qi-shu-lie-lcof
 
+//动态规划
+// 时间复杂度：O(n)O(n)
+// 空间复杂度：O(1)O(1)
+
+var fib = function(n) {
+  const MOD = 1000000007;
+  if (n < 2) {
+      return n;
+  }
+  let p = 0, q = 0, r = 1;
+  for (let i = 2; i <= n; ++i) {
+      p = q; 
+      q = r; 
+      r = (p + q) % MOD;
+  }
+  return r;
+};
 

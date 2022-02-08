@@ -1,22 +1,38 @@
-// 1.划分字母区间        
-// https://leetcode-cn.com/problems/partition-labels/
-var partitionLabels = function(s) {
-  const last = new Array(26);
-  const length = s.length;
-  const codePointA = 'a'.codePointAt(0);
-  for (let i = 0; i < length; i++) {
-      last[s.codePointAt(i) - codePointA] = i;
+// 最大间距        
+// https://leetcode-cn.com/problems/maximum-gap/
+var maximumGap = function(nums) {
+  const n = nums.length;
+  if (n < 2) {
+      return 0;
   }
-  const partition = [];
-  let start = 0, end = 0;
-  for (let i = 0; i < length; i++) {
-      end = Math.max(end, last[s.codePointAt(i) - codePointA]);
-      if (i == end) {
-          partition.push(end - start + 1);
-          start = end + 1;
+  let exp = 1;
+  const buf = new Array(n).fill(0);
+  const maxVal = Math.max(...nums);
+
+  while (maxVal >= exp) {
+      const cnt = new Array(10).fill(0);
+      for (let i = 0; i < n; i++) {
+          let digit = Math.floor(nums[i] / exp) % 10;
+          cnt[digit]++;
       }
+      for (let i = 1; i < 10; i++) {
+          cnt[i] += cnt[i - 1];
+      }
+      for (let i = n - 1; i >= 0; i--) {
+          let digit = Math.floor(nums[i] / exp) % 10;
+          buf[cnt[digit] - 1] = nums[i];
+          cnt[digit]--;
+      }
+      nums.splice(0, n, ...buf);
+      exp *= 10;
   }
-  return partition;
+  
+  let ret = 0;
+  for (let i = 1; i < n; i++) {
+      ret = Math.max(ret, nums[i] - nums[i - 1]);
+  }
+  return ret;
 };
+
 
 

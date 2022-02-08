@@ -1,22 +1,28 @@
-// 1.划分字母区间        
-// https://leetcode-cn.com/problems/partition-labels/
-var partitionLabels = function(s) {
-  const last = new Array(26);
-  const length = s.length;
-  const codePointA = 'a'.codePointAt(0);
-  for (let i = 0; i < length; i++) {
-      last[s.codePointAt(i) - codePointA] = i;
-  }
-  const partition = [];
-  let start = 0, end = 0;
-  for (let i = 0; i < length; i++) {
-      end = Math.max(end, last[s.codePointAt(i) - codePointA]);
-      if (i == end) {
-          partition.push(end - start + 1);
-          start = end + 1;
-      }
-  }
-  return partition;
-};
+// 调整数组顺序使奇数位于偶数前面        
+// https://leetcode-cn.com/problems/diao-zheng-shu-zu-shun-xu-shi-qi-shu-wei-yu-ou-shu-qian-mian-lcof
 
+//双指针解法
+/**
+ * @param {number[]} nums
+ * @return {number[]}
+ */
+ var exchange = function(nums) {
+  let l = 0, r = nums.length-1;
+  while(l < r){
+      if(nums[l] % 2 === 0 && nums[r] % 2 !== 0){
+          swap(l, r);
+          l++;
+          r--;
+          continue;
+      }
+      if(nums[l] % 2 !== 0) l++;
+      if(nums[r] % 2 === 0) r--;
+  }
+  return nums;
+  function swap(i, j){
+      let temp = nums[i];
+      nums[i] = nums[j];
+      nums[j] = temp;
+  }
+};
 
